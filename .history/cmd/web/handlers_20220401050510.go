@@ -391,9 +391,6 @@ func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	// remove the AuthenticatedUserID from the session data so that  the user is
 	// logged out
 	app.session.Remove(r, "authenticatedUserID")
-	//Add a flash message to the session to confirm to the user
-	//that they have been logged out
-	app.session.Put(r, "flash", "You've been logged out successfully!")
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	//Add a flash message to the session to confirm to the user that they have been logged out
 
 }

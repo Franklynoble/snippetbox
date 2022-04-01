@@ -382,18 +382,11 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	app.session.Put(r, "authenticatedUserID", id)
 
 	// Redirect the USer to the Create snippet page
-	http.Redirect(w, r, "/snippet/create", http.StatusSeeOther)
+	http.Redirect(w, r, "/snippet/create/", http.StatusSeeOther)
 }
 
 //fmt.Fprintf(w, "Authenticate and  login the user ...")
 
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
-	// remove the AuthenticatedUserID from the session data so that  the user is
-	// logged out
-	app.session.Remove(r, "authenticatedUserID")
-	//Add a flash message to the session to confirm to the user
-	//that they have been logged out
-	app.session.Put(r, "flash", "You've been logged out successfully!")
-	http.Redirect(w, r, "/", http.StatusSeeOther)
-
+	fmt.Fprintf(w, "Logout  the User ...")
 }
