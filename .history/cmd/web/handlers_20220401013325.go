@@ -334,22 +334,20 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	//otherwise add a confirmation flash message to the session confirming that
-	//their signUp worked and asking them to log in.
-	app.session.Put(r, "flash", "your sign up was successful. Please log in.")
+		//otherwise add a confirmation flash message to the session confirming that
+		//their signUp worked and asking them to log in.
+		app.session.Put(r, "flash", "your sign up was successful. Please log in.")
 
-	// add redirect to the user to the login page
+		// add redirect to the user to the login page
 
-	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+	}
+
 }
 
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
 
-	app.render(w, r, "login.page.tmpl", &templateData{
-		Form: forms.New(nil),
-	})
-
-	//fmt.Fprintf(w, "Display the user login form ...")
+	fmt.Fprintf(w, "Display the user login form ...")
 
 }
 func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
