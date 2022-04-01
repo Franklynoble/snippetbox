@@ -64,7 +64,7 @@ func (m *UserModel) Authenticate(email, password string) (int, error) {
 	stmt := "SELECT id, hashed_password FROM users WHERE email= ? AND active = TRUE"
 
 	row := m.DB.QueryRow(stmt, email)
-	err := row.Scan(&id, &hashePassword) // this would scan and put info to this variable created from above at line 61,62
+	err := row.Scan(&id & hashePassword)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return 0, models.ErrinvalidCredentials
