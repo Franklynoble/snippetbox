@@ -365,28 +365,21 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	// This field is only available after ParseForm is called
 	//The HTTP client ignores PostForm and uses Body instead.
 
-	form := forms.New(r.PostForm) // PostForm contains the parsed form data from PATCH, POST	or PUT body parameters.
-
-	id, err := app.users.Authenticate(form.Get("email"), form.Get("password"))
+	forms := forms.New(r.PostForm) // PostForm contains the parsed form data from PATCH, POST	or PUT body parameters.
+ 
+	id, err := app.users.Authenticate(form.get("email"), form.get("password")) 
 	if err != nil {
-		if errors.Is(err, models.ErrinvalidCredentials) {
-			form.Errors.Add("generic", "email of pass is incorrect")
-			app.render(w, r, "login.page.tmpl", &templateData{Form: form})
-		} else {
-			app.serverError(w, err)
+		if errors.Is(err,models.ErrinvalidCredentials) {
+			form.Errors.Add ("generic", "email of pass is incorrect")
+			app.render(w,r, "login.page.tmpl", &templateData{Form: form})
+		}else {
+			app.serverError(w,err)
 		}
 		return
 	}
-
-	//Add the ID of the current user to the session, so that they are now 'logged' in
-	app.session.Put(r, "authenticatedUserID", id)
-
-	// Redirect the USer to the Create snippet page
-	http.Redirect(w, r, "/snippet/create/", http.StatusSeeOther)
+	}
+	//fmt.Fprintf(w, "Authenticate and  login the user ...")
 }
-
-//fmt.Fprintf(w, "Authenticate and  login the user ...")
-
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Logout  the User ...")
 }

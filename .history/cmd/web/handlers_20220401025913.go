@@ -365,9 +365,9 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	// This field is only available after ParseForm is called
 	//The HTTP client ignores PostForm and uses Body instead.
 
-	form := forms.New(r.PostForm) // PostForm contains the parsed form data from PATCH, POST	or PUT body parameters.
+	forms := forms.New(r.PostForm) // PostForm contains the parsed form data from PATCH, POST	or PUT body parameters.
 
-	id, err := app.users.Authenticate(form.Get("email"), form.Get("password"))
+	id, err := app.users.Authenticate(form.get("email"), form.get("password"))
 	if err != nil {
 		if errors.Is(err, models.ErrinvalidCredentials) {
 			form.Errors.Add("generic", "email of pass is incorrect")
@@ -379,10 +379,7 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//Add the ID of the current user to the session, so that they are now 'logged' in
-	app.session.Put(r, "authenticatedUserID", id)
-
-	// Redirect the USer to the Create snippet page
-	http.Redirect(w, r, "/snippet/create/", http.StatusSeeOther)
+	app.session.Put(r, "authenticateUserID", id)
 }
 
 //fmt.Fprintf(w, "Authenticate and  login the user ...")
