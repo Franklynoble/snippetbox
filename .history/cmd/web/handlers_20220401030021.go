@@ -380,9 +380,6 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 
 	//Add the ID of the current user to the session, so that they are now 'logged' in
 	app.session.Put(r, "authenticatedUserID", id)
-
-	// Redirect the USer to the Create snippet page
-	http.Redirect(w, r, "/snippet/create/", http.StatusSeeOther)
 }
 
 //fmt.Fprintf(w, "Authenticate and  login the user ...")
