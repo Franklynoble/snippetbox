@@ -95,9 +95,4 @@ func (app *application) isAuthenticated(r *http.Request) bool {
 	//authenticated or not.
 	isAuthenticated, ok := r.Context().Value(contextKeyIsAuthenticated).(bool)
 
-	if !ok {
-		return false
-	}
-	return isAuthenticated
-
 }

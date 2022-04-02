@@ -15,7 +15,7 @@ func (app *application) routes() http.Handler {
 
 	/*
 		       Create a middleware chain containing our 'standard' middleware
-			  which will be used for every request application receives
+			  which will be used for every request application recieves
 			**/
 	standardMiddleware := alice.New(app.recoverPanic, app.logRequest, secureHeaders)
 
