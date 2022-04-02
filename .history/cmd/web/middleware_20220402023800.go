@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"net/http"
@@ -103,24 +102,14 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 		handler in the chain as normal
 		 **/
 		user, err := app.users.Get(app.session.GetInt(r, "authenticatedUserID"))
-
 		if errors.Is(err, models.ErrNoRecord) || !user.Active {
 			app.session.Remove(r, "authenticatedUserID")
 			next.ServeHTTP(w, r)
 			return
-
 		} else if err != nil {
-
 			app.serverError(w, err)
 			return
 
 		}
-
-		// Otherwise, we know that the request is comming from active, authenticated
-		//user. we create a new copy  of request context to indicate this, and call the next handler
-		// in the chain *using this new copy of the request*.
-		ctx := context.WithValue(r.Context(), contextKeyIsAuthenticated, true)
-
-		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
