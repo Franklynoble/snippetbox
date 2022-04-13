@@ -44,6 +44,9 @@ func (app *application) routes() http.Handler {
 	// Note that the Path given to the http.Dir function is relative to the Object
 	//Directory root
 
+	//Add a new GET /ping route.
+	mux.Get("/ping", http.HandlerFunc(ping))
+
 	// leave the static files unchanged, as we do not need static file for our dynamic data
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	//use the mux.Handle() function to register the files server as the handler for
@@ -52,11 +55,8 @@ func (app *application) routes() http.Handler {
 
 	mux.Get("/static/", http.StripPrefix("/static", fileServer))
 
-	/*
-		Pass the servermux as the 'next' parameter to the scureHeaders middleware
-		Because secureHeaders is just a function, and the function returns a http.Handler we don't to do anything else.
-		  **/
-
+	//Pass the servermux as the 'next' parameter to the scureHeaders middleware
+	//Because secureHeaders is just a function, and the function returns a http.Handler we don't to do anything else.
 	// Wrap the existing chain with the logRequest middleware
 	return standardMiddleware.Then(mux)
 }
