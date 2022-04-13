@@ -36,14 +36,14 @@ type templateData struct {
 representation of a time.Time object
 **/
 func humanDate(t time.Time) string {
-	//Return Empty string if time has zero value
+
 	if t.IsZero() {
 		return ""
 	}
 	// Convert the time to UTC before formatting it
 	return t.UTC().Format("02 Jan 2006 at 15:04")
 
-	//return t.Format("02 Jan 2006 at 15:04")
+	return t.Format("02 Jan 2006 at 15:04")
 }
 
 /*

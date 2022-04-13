@@ -22,8 +22,6 @@ func TestHumanDate(t *testing.T) {
 	//create a slice of anonymous struct containing the test case name,
 	//input to our  humanDate() function (the tm field), and the expected output
 	//(they want field)
-	// return the empty string if time has zero value
-
 	tests := []struct {
 		name string
 		tm   time.Time
@@ -32,14 +30,14 @@ func TestHumanDate(t *testing.T) {
 		{
 			name: "UTC",
 			tm:   time.Date(2020, 12, 17, 10, 0, 0, 0, time.UTC),
-			want: "17 Dec 2020 at 10:00",
+			want: "17, Dec 2020 at 10:00",
 		},
 		{
 			name: "Empty",
 			tm:   time.Time{},
 			want: "",
 		}, {
-			name: "CET",
+			name: "GET",
 			tm:   time.Date(2020, 12, 17, 10, 0, 0, 0, time.FixedZone("CET", 1*60*60)),
 			want: "17 Dec 2020 at 09:00",
 		},

@@ -12,18 +12,12 @@ update the signature for the routes method so that it returns a
  http.Handler instead of *http.serverMux.
 **/
 func (app *application) routes() http.Handler {
-
-	/*
-		       Create a middleware chain containing our 'standard' middleware
-			  which will be used for every request application receives
-			**/
+	//	       Create a middleware chain containing our 'standard' middleware
+	//		  which will be used for every request application receives
 	standardMiddleware := alice.New(app.recoverPanic, app.logRequest, secureHeaders)
-
-	/*
-		Create a new middleware chain containing the middleware specific to our
-		dynamic application routes, For now, this chain will Only contain
-		 the session middleware but we will add More to it latter
-		**/
+	//Create a new middleware chain containing the middleware specific to our
+	//dynamic application routes, For now, this chain will Only contain
+	//the session middleware but we will add More to it latter
 	//Use the noSurf middleware on all 'dynamic' routes
 	// Add the authenticate() middleware to the chain
 	dynamicMiddleWare := alice.New(app.session.Enable, noSurf, app.authenticate)

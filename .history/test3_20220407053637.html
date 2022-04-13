@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.ssr{ 
+  display: block;
+  border: 2px solid lightgrey;
+  color: red;
+  font-color: yellow;
+ 
+  padding: 5px;
+  margin: 15px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $(".ssr").children().css({"font-style": "italic"});
+});
+</script>
+</head>
+<body>
+
+<ul class="ssr" style="width:500px;">ul (current element) >
+
+ <li> <a href=""> home</a></li>
+ <li> <a href="">About</a></li>
+ <li> <a href="">COntact </a></li>
+ <li><a href="">Packages</a><ul style="width:500px;">sub ul (current element) 
+ 
+    <li> <a href="">8D Southern Queensland </a></li>
+    <li> <a href="">Port Jackson </a></li>
+    <li> <a href="">Gold Cost Sunshine Coast</a></li>
+    <li> <a href="">7D southern queens land </a></li>
+ 
+ </ul>
+ </li>
+ 
+  <li> <a href=""> Destination</a>
+<ul>
+ <li> <a href=""> Blue Mountains</a></li>
+ <li> <a href="">Uluru</a></li>
+ <li> <a href="">Port Jackson</a></li>
+ <li> <a href="">Sydney Opera House </a></li>
+ <li> <a href="">Sydney Harbour Bridge</a></li>
+
+</ul>
+<li>
+</ul>
+
+</body>
+</html>
