@@ -24,6 +24,9 @@ func TestHumanDate(t *testing.T) {
 	//(they want field)
 	// return the empty string if time has zero value
 
+	if t.IsZero() {
+		return ""
+	}
 	tests := []struct {
 		name string
 		tm   time.Time

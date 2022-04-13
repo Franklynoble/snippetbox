@@ -35,12 +35,9 @@ func (app *application) notFound(w http.ResponseWriter) {
 }
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, name string, td *templateData) {
-	/*
-	   Retrieve the appropriate template set from the cache based on the page
-	   (like 'home.page.tmpl'). if no entry exists in the cache with the
-	   provided name, call the serverError helper method  that we made earlier
-
-	*/
+	//	   Retrieve the appropriate template set from the cache based on the page
+	// (like 'home.page.tmpl'). if no entry exists in the cache with the
+	//provided name, call the serverError helper method  that we made earlier
 	ts, ok := app.templateCache[name]
 	if !ok {
 		app.serverError(w, fmt.Errorf("the template %s does not exist", name))
@@ -53,12 +50,9 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 	//}
 	// Initialize a  new buffer.
 	buf := new(bytes.Buffer)
-
-	/*
-		write the template to the buffer, instead of straight  to the
-		http.responseWriter if there is an error, call our serverError helper
-		 and return
-		**/
+	//write the template to the buffer, instead of straight  to the
+	//	http.responseWriter if there is an error, call our serverError helper
+	//	 and return
 	err := ts.Execute(buf, app.addDefaultData(td, r))
 
 	if err != nil {

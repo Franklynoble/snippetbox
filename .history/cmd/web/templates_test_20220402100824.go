@@ -24,6 +24,11 @@ func TestHumanDate(t *testing.T) {
 	//(they want field)
 	// return the empty string if time has zero value
 
+	if t.IsZero() {
+		return ""
+	}
+	// Convert the time to UTC before formatting it
+	return t.UTC().Format("02 Jan 2006 at 15:04")
 	tests := []struct {
 		name string
 		tm   time.Time

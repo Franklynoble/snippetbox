@@ -22,8 +22,6 @@ func TestHumanDate(t *testing.T) {
 	//create a slice of anonymous struct containing the test case name,
 	//input to our  humanDate() function (the tm field), and the expected output
 	//(they want field)
-	// return the empty string if time has zero value
-
 	tests := []struct {
 		name string
 		tm   time.Time

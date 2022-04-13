@@ -22,9 +22,7 @@ func TestHumanDate(t *testing.T) {
 	//create a slice of anonymous struct containing the test case name,
 	//input to our  humanDate() function (the tm field), and the expected output
 	//(they want field)
-	// return the empty string if time has zero value
-
-	tests := []struct {
+	test := []struct {
 		name string
 		tm   time.Time
 		want string
@@ -32,30 +30,17 @@ func TestHumanDate(t *testing.T) {
 		{
 			name: "UTC",
 			tm:   time.Date(2020, 12, 17, 10, 0, 0, 0, time.UTC),
-			want: "17 Dec 2020 at 10:00",
+			want: "17, Dec 2020 at 10:00",
 		},
 		{
 			name: "Empty",
 			tm:   time.Time{},
 			want: "",
 		}, {
-			name: "CET",
+			name: "GET",
 			tm:   time.Date(2020, 12, 17, 10, 0, 0, 0, time.FixedZone("CET", 1*60*60)),
 			want: "17 Dec 2020 at 09:00",
 		},
-	}
-
-	for _, tt := range tests {
-		//Use the t.Run() function to run a sub-test for each test case. the
-		//first parameter to this is the name of the test (which is used to identify the subtest in any log output) and the second parameter is
-		// is an anonymous function containing the actual test for each test case
-		t.Run(tt.name, func(t *testing.T) {
-			hd := humanDate(tt.tm)
-
-			if hd != tt.want {
-				t.Errorf("want %q; got %q", tt.want, hd)
-			}
-		})
 	}
 
 }
