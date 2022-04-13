@@ -8,10 +8,9 @@ import (
 )
 
 func TestSecureHeaders(t *testing.T) {
-	//initializing a new httptest.ResponseRecorder and dummy.Request
+	// httptest.ResponseRecorder and dummy.Request
 
 	rr := httptest.NewRecorder()
-
 	r, err := http.NewRequest(http.MethodGet, "/", nil)
 
 	if err != nil {
