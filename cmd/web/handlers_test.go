@@ -150,11 +150,11 @@ func TestSignupUser(t *testing.T) {
 		{"Empty name", "", "bob@example.com", "validPa$$word", csrfToken, http.StatusOK, []byte("this field cannnot be blank")},
 		{"Empty email", "Bob", "", "validPa$$word", csrfToken, http.StatusOK, []byte("This field cannot be blank")},
 		{"Empty password", "Bob", "bob@example.com", "", csrfToken, http.StatusOK, []byte("this field can not  be blank")},
-		{"Invalid email (incomplete domain)", "Bob", "bob@example", "validpa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
-		{"Invalid email (missing @)", "Bob", "bobexample", "validpa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
-		{"Invalid email (missing local part)", "Bob", "@example", "validpa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
+		{"Invalid email (incomplete domain)", "Bob", "bob@example", "validPa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
+		{"Invalid email (missing @)", "Bob", "bobexample.", "validPa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
+		{"Invalid email (missing local part)", "Bob", "@example", "validPa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
 		{"Short password", "Bob", "bob@example.com", "pa$$word", csrfToken, http.StatusOK, []byte("this field is  too short")},
-		{"Duplicate email", "Bob", "dup@example.com", "validpa$$word", csrfToken, http.StatusOK, []byte("Address is already Taken")},
+		{"Duplicate email", "Bob", "dup@example.com", "validPa$$word", csrfToken, http.StatusOK, []byte("Address is already Taken")},
 		{"Invalid CSRF Token", "", "", "", "wrongToken", http.StatusBadRequest, nil},
 	}
 
@@ -179,6 +179,6 @@ func TestSignupUser(t *testing.T) {
 	// Log the CSRF  token value in our test output. to see the output from the
 	//t.Log() command you need to run the  `go test` with the -v (verbose) flag
 	//enabled
-	t.Log(csrfToken)
+	//t.Log(csrfToken)
 
 }
