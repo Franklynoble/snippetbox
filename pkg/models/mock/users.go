@@ -9,7 +9,7 @@ import (
 var mockUser = &models.User{
 	ID:      1,
 	Name:    "Alice",
-	Email:   "alice@gmail.com",
+	Email:   "alice@example.com",
 	Created: time.Now(),
 	Active:  true,
 }
@@ -27,7 +27,7 @@ func (m *UserModel) Insert(name, email, password string) error {
 
 func (m *UserModel) Authenticate(email, password string) (int, error) {
 	switch email {
-	case "alice@gmail.com":
+	case "alice@example.com":
 		return 1, nil
 	default:
 		return 0, models.ErrinvalidCredentials

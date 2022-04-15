@@ -46,17 +46,16 @@ type application struct {
 	snippets interface {
 		Insert(string, string, string) (int, error)
 		Get(int) (*models.Snippet, error)
-		Lattest() ([]*models.Snippet, error)
+		Latest() ([]*models.Snippet, error)
 	}
-
-	//	snippets      *mysql.SnippetModel
+	//snippets      *mysql.SnippetModel
 	templateCache map[string]*template.Template
 	users         interface {
 		Insert(string, string, string) error
 		Authenticate(string, string) (int, error)
 		Get(int) (*models.User, error)
 	}
-	//*mysql.UserModel //add new users field to the application struct
+	//users *mysql.UserModel //add new users field to the application struct
 
 }
 
