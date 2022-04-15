@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"net/http"
+	"net/url"
 	"testing"
 )
 
@@ -136,6 +137,45 @@ func TestSignupUser(t *testing.T) {
 	_, _, body := ts.get(t, "/user/signup")
 	csrfToken := extractCSRFToken(t, body)
 
+	tests := []struct {
+		name         string
+		userName     string
+		userEmail    string
+		userPassword string
+		csrfToken    string
+		wantCode     int
+		wantBody     []byte
+	}{
+		{"Valid submission", "Bob", "bob@example.com", "validPa$$word", csrfToken, http.StatusSeeOther, nil},
+		{"Empty name", "", "bob@example.com", "validPa$$word", csrfToken, http.StatusOK, []byte("this field cannnot be blank")},
+		{"Empty email", "Bob", "", "validPa$$word", csrfToken, http.StatusOK, []byte("This field cannot be blank")},
+		{"Empty password", "Bob", "bob@example.com", "", csrfToken, http.StatusOK, []byte("this field can not  be blank")},
+		{"Invalid email (incomplete domain)", "Bob", "bob@example", "validpa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
+		{"Invalid email (missing @)", "Bob", "bobexample", "validpa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
+		{"Invalid email (missing local part)", "Bob", "@example", "validpa$$word", csrfToken, http.StatusOK, []byte("this  field is invlaid")},
+		{"Short password", "Bob", "bob@example.com", "pa$$word", csrfToken, http.StatusOK, []byte("this field is  too short")},
+		{"Duplicate email", "Bob", "dup@example.com", "validpa$$word", csrfToken, http.StatusOK, []byte("Address is already Taken")},
+		{"Invalid CSRF Token", "", "", "", "wrongToken", http.StatusBadRequest, nil},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			form := url.Values{}
+			form.Add("name", tt.userName)
+			form.Add("email", tt.userEmail)
+			form.Add("password", tt.userPassword)
+			form.Add("csrf_token", tt.csrfToken)
+
+			code, _, body := ts.postForm(t, "/user/signup", form)
+
+			if code != tt.wantCode {
+				t.Errorf("want %d; got %d", tt.wantCode, code)
+			}
+			if !bytes.Contains(body, tt.wantBody) {
+				t.Errorf("want body %s to contain %q", body, tt.wantBody)
+			}
+		})
+	}
 	// Log the CSRF  token value in our test output. to see the output from the
 	//t.Log() command you need to run the  `go test` with the -v (verbose) flag
 	//enabled

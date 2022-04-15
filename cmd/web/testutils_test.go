@@ -12,8 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Franklynoble/snippetbox/pkg/models/mysql"
+	"github.com/Franklynoble/snippetbox/pkg/models/mock"
 	"github.com/golangcollege/sessions"
+	//"github.com/stretchr/testify/mock"
 )
 
 //Define a regular expression which captures the CSRF token value from the
@@ -52,9 +53,9 @@ func newTestApplication(t *testing.T) *application {
 		errorLog:      log.New(ioutil.Discard, "", 0),
 		infoLog:       log.New(ioutil.Discard, "", 0),
 		session:       session,
-		snippets:      &mysql.SnippetModel{},
+		snippets:      &mock.SnippetModel{},
 		templateCache: templateCache,
-		users:         &mysql.UserModel{},
+		users:         &mock.UserModel{},
 	}
 
 }
