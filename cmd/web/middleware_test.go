@@ -34,7 +34,7 @@ func TestSecureHeaders(t *testing.T) {
 
 	//check that the middleware has correctly has set the x-Frame-options header
 	// on the response
-	frameOptions := rs.Header.Get("x-Frame-Options")
+	frameOptions := rs.Header.Get("X-Frame-Options")
 
 	if frameOptions != "deny" {
 		t.Errorf("want %q; got %q", "deny", frameOptions)
