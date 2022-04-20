@@ -445,7 +445,9 @@ func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) changePasswordForm(w http.ResponseWriter, r *http.Request) {
-
+	app.render(w, r, "password.page.tmpl", &templateData{
+		Form: forms.New(nil),
+	})
 }
 
 func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
