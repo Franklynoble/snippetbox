@@ -416,5 +416,32 @@ func (app *application) about(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Write profile page"))
+
+	err := r.ParseForm()
+
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+	//form := forms.New(r.PostForm)
+
+	//	id, _ := app.users.Authenticate(form.Get("email"), form.Get("password"))
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	//	app.session.Put(r, "authenticatedUserID", id)
+	userID := app.session.GetInt(r, "authenticatedUserID")
+	user, err := app.users.Get(userID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	app.render(w, r, "profile.page.tmpl", &templateData{
+		User: user,
+	})
+
+	//fmt.Fprintf(w, "%+v", user)
 }
+
+//w.Write([]byte("profile Page"))
