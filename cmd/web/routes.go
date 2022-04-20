@@ -38,11 +38,13 @@ func (app *application) routes() http.Handler {
 	mux.Post("/user/signup", dynamicMiddleWare.ThenFunc(app.signupUser))
 	mux.Get("/user/login", dynamicMiddleWare.ThenFunc(app.loginUserForm))
 	mux.Post("/user/login", dynamicMiddleWare.ThenFunc(app.loginUser))
+
 	//Add the requireAuthentication middleware to the chain
 	mux.Post("/user/logout", dynamicMiddleWare.Append(app.requireAuthentication).ThenFunc(app.logoutUser))
 	//create a file server which serves files out of the "./ui/static" directory
 	// Note that the Path given to the http.Dir function is relative to the Object
 	//Directory root
+	mux.Get("/about", dynamicMiddleWare.ThenFunc(app.about))
 
 	//Add a new GET /ping route.
 	mux.Get("/ping", http.HandlerFunc(ping))

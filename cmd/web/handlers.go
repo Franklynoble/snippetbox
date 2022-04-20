@@ -400,3 +400,17 @@ func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 func ping(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Ok"))
 }
+
+func (app *application) about(w http.ResponseWriter, r *http.Request) {
+
+	s, err := app.snippets.Latest()
+	if err != nil {
+		app.serverError(w, err)
+	}
+
+	//w.Write([]byte("About Page "))
+	app.render(w, r, "about.page.tmpl", &templateData{
+		Snippets: s,
+	})
+
+}
