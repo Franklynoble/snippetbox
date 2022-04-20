@@ -414,3 +414,7 @@ func (app *application) about(w http.ResponseWriter, r *http.Request) {
 	})
 
 }
+
+func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Write profile page"))
+}
