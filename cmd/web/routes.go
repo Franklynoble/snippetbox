@@ -42,7 +42,9 @@ func (app *application) routes() http.Handler {
 	mux.Post("/user/signup", dynamicMiddleWare.ThenFunc(app.signupUser))
 	mux.Get("/user/login", dynamicMiddleWare.ThenFunc(app.loginUserForm))
 	mux.Post("/user/login", dynamicMiddleWare.ThenFunc(app.loginUser))
-
+	//add  change-password routes
+	mux.Get("/user/change-password", dynamicMiddleWare.Append(app.requireAuthentication).ThenFunc(app.changePasswordForm))
+	mux.Post("/user/change-password", dynamicMiddleWare.Append(app.requireAuthentication).ThenFunc(app.changePassword))
 	//Add the requireAuthentication middleware to the chain
 	mux.Post("/user/logout", dynamicMiddleWare.Append(app.requireAuthentication).ThenFunc(app.logoutUser))
 	//create a file server which serves files out of the "./ui/static" directory

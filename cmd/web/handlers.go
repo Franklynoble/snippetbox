@@ -444,4 +444,10 @@ func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, "%+v", user)
 }
 
-//w.Write([]byte("profile Page"))
+func (app *application) changePasswordForm(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
+
+}
