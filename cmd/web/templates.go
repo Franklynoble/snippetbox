@@ -30,6 +30,7 @@ type templateData struct {
 	FormErrors      map[string]string
 	Snippet         *models.Snippet
 	Snippets        []*models.Snippet
+	User            *models.User
 }
 
 /*Create a humanDate which returns

@@ -33,6 +33,7 @@
         <!--Toggle the navigation link--->
     {{if .IsAuthenticated}}
         <form action='/user/logout' method='POST'>
+         <a href='/user/profile'>profile </a>
       
          <!--Include the CSRF token-->
          <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
