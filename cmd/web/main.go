@@ -54,6 +54,7 @@ type application struct {
 		Insert(string, string, string) error
 		Authenticate(string, string) (int, error)
 		Get(int) (*models.User, error)
+		ChangePassword(id int, currentPassword, newPassword string) error
 	}
 	//users *mysql.UserModel //add new users field to the application struct
 
