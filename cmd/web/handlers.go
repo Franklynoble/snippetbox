@@ -451,5 +451,38 @@ func (app *application) changePasswordForm(w http.ResponseWriter, r *http.Reques
 }
 
 func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+	form := forms.New(r.PostForm)
+
+	form.Required("currentpassword", "newpassword", "confirmpassword")
+	form.MinLength("currentpassword", 10)
+	form.MinLength("newpassword", 10)
+	form.MinLength("confirmpassword", 10)
+
+	if !form.Valid() {
+		app.render(w, r, "password.page.tmpl", &templateData{
+			Form: form,
+		})
+		return
+	}
+	userID := app.session.GetInt(r, "authenticateUserID")
+
+	err = app.users.ChangePassword(userID, form.Get("currentPassword"), form.Get("newPassword"))
+	if err != nil {
+		if errors.Is(err, models.ErrinvalidCredentials) {
+			form.Errors.Add("currentPassword", "Current passwrod is incorrect")
+			app.render(w, r, "password.page.tmpl", &templateData{Form: form})
+		} else if err != nil {
+			app.serverError(w, err)
+		}
+		return
+
+	}
+	app.session.Put(r, "flash", "Your password has been updated!")
+	http.Redirect(w, r, "user/profile", http.StatusSeeOther)
 
 }
