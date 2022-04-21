@@ -380,7 +380,15 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 
 	//Add the ID of the current user to the session, so that they are now 'logged' in
 	app.session.Put(r, "authenticatedUserID", id)
+	// Use the PopString method to retrieve and remove a value from the session
+	//data in one step. if no matching key exist this will return the empty
+	//string
+	path := app.session.PopString(r, "redirectPathAfterLogin")
 
+	if path != "" {
+		http.Redirect(w, r, path, http.StatusSeeOther)
+		return
+	}
 	// Redirect the USer to the Create snippet page
 	http.Redirect(w, r, "/snippet/create", http.StatusSeeOther)
 }
@@ -459,9 +467,12 @@ func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
 	form := forms.New(r.PostForm)
 
 	form.Required("currentpassword", "newpassword", "confirmpassword")
-	form.MinLength("currentpassword", 10)
+	//form.MinLength("currentpassword", 10)
 	form.MinLength("newpassword", 10)
-	form.MinLength("confirmpassword", 10)
+	//form.MinLength("confirmpassword", 10)
+	if form.Get("newpassword") != form.Get("confirmpassword") {
+		form.Errors.Add("confirmpassword", "passwords do not match")
+	}
 
 	if !form.Valid() {
 		app.render(w, r, "password.page.tmpl", &templateData{
@@ -469,12 +480,12 @@ func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	userID := app.session.GetInt(r, "authenticateUserID")
+	userID := app.session.GetInt(r, "authenticatedUserID")
 
-	err = app.users.ChangePassword(userID, form.Get("currentPassword"), form.Get("newPassword"))
+	err = app.users.ChangePassword(userID, form.Get("currentpassword"), form.Get("newpassword"))
 	if err != nil {
 		if errors.Is(err, models.ErrinvalidCredentials) {
-			form.Errors.Add("currentPassword", "Current passwrod is incorrect")
+			form.Errors.Add("currentpassword", "Current passwrod is incorrect")
 			app.render(w, r, "password.page.tmpl", &templateData{Form: form})
 		} else if err != nil {
 			app.serverError(w, err)
@@ -483,6 +494,6 @@ func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
 
 	}
 	app.session.Put(r, "flash", "Your password has been updated!")
-	http.Redirect(w, r, "user/profile", http.StatusSeeOther)
+	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
 
 }
