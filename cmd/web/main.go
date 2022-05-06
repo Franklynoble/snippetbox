@@ -67,7 +67,9 @@ func main() {
 	// The Value of the flag will be stored in the addr variable runtime.
 	addr := flag.String("addr", ":4000", "HTTP network address")
 
-	dsn := flag.String("dsn", "root:pwd@tcp(0.0.0.0:8083)/snippetbox?parseTime=true", "MYSQL data Source")
+	dsn := flag.String("dsn", "secret:root@tcp(0.0.0.0:3306)/snippetbox?parseTime=true", "MYSQL data Source")
+
+	//dsn := flag.String("dsn", "root:secret@localhost(0.0.0.0:8083)/snippetbox?parseTime=true", "MYSQL data Source")
 
 	// will be used encrypt and authenticate session cookies) it should be 32
 	//bytes long.
