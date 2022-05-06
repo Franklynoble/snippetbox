@@ -46,6 +46,7 @@ func (app *application) routes() http.Handler {
 	mux.Get("/user/change-password", dynamicMiddleWare.Append(app.requireAuthentication).ThenFunc(app.changePasswordForm))
 	mux.Post("/user/change-password", dynamicMiddleWare.Append(app.requireAuthentication).ThenFunc(app.changePassword))
 	//Add the requireAuthentication middleware to the chain
+
 	mux.Post("/user/logout", dynamicMiddleWare.Append(app.requireAuthentication).ThenFunc(app.logoutUser))
 	//create a file server which serves files out of the "./ui/static" directory
 	// Note that the Path given to the http.Dir function is relative to the Object
